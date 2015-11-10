@@ -1,4 +1,4 @@
-module.export = {
+module.exports = {
 	save:function(name, callback){
 		//save the user
 		var user = {

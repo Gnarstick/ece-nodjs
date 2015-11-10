@@ -4,10 +4,11 @@ var users = require('./users.js');
 http.createServer(function (req, res) {
 	
 	var path = req.url.split("/")
+	console.log(users)
 	
-	if (path[0] == "get")
+	if (path[1] == "get")
 	{
-	users.get(path[1], function (user) {
+	users.get(path[2], function (user) {
 		var response = {
 			info: "here's your user !",
 			user: user
@@ -16,9 +17,9 @@ http.createServer(function (req, res) {
 	res.end(JSON.stringify(response));
 	})
 	}
-	else if (path[0] == "save")
+	else if (path[1] == "save")
 	{
-	users.get(path[1], function (user) {
+	users.save(path[2], function (user) {
 		var response = {
 			info: "user save !",
 			user: user
