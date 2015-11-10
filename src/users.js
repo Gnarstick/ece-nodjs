@@ -5,11 +5,11 @@ module.export = {
 			id: "2222"
 		}
 			callback(name);
-	}
+	},
 	
 	get:function(id, callback){
 		//get the user
-		var user = {
+		var user ={
 			name: "cesar",
 			id: id
 		}
