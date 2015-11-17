@@ -1,3 +1,3 @@
 #! /bin/sh
 
-./node_modules/mocha/bin/mocha test/* -> ./bin/test
+node ../lib/server.js
