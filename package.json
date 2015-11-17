@@ -6,5 +6,7 @@
 		"name": "cesar",
 		"website": "github.com/cesarBere"
 	}
-	
+	"dependencies": {
+		"mygithubmodule": "git_account/module#ecejijxsi"
+	}
 }
