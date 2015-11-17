@@ -4,8 +4,10 @@ var should = require('should');
 describe('user', function() {
   describe('get()', function() {
     it('should get without error', function(done) {
-      user.get('toto', function() {
+      user.get('22', function(result) {
 		  // test
+		  result.should.equal('22');
+		  result.should.be.Int;
 		  done();
 	  });
     });
