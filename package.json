@@ -5,7 +5,7 @@
 	"author": {
 		"name": "cesar",
 		"website": "github.com/cesarBere"
-	}
+	},
 	"dependencies": {
 		"mymodule": "1.2.y",
 		"mymodule": "~1.2.x",
