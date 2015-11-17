@@ -6,6 +6,7 @@
 		"name": "cesar",
 		"website": "github.com/cesarBere"
 	},
+	"main": "./bin/test",
 	"dependencies": {
 		"mocha": "*",
 		"should": "*"
