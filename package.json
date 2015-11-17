@@ -5,13 +5,6 @@
 	"author": {
 		"name": "cesar",
 		"website": "github.com/cesarBere"
-	}/*,
-	"dependencies": {
-		"mylocalmodule": "file:./server.js",
-		"mygithubmodule": "git_account/module#ecejijxsi"
-	},
-	"devDependencies": {
-		"test-module": "*"
-	}*/
+	}
 	
 }
