@@ -9,7 +9,9 @@ block head
 
 block content 
   div.container
-    div.col-md-6.col-md-offset-3.bou
+    div.col-md-6.col-md-offset-1
+      button.btn.btn-danger(href='/logout' onclick='document.location.href=\'/logout\'') Logout
+    div.col-md-6.col-md-offset-3
       button.btn.btn-success#get-metrics Hello world
       #content
   
