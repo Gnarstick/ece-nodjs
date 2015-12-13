@@ -32,6 +32,9 @@ app.get '/logout', (req, res) ->
 app.get '/login', (req, res) ->
  res.render 'login'
  
+app.get '/signup', (req, res) ->
+ res.render 'signup'
+ 
 app.post '/signup', (req, res)->
   user.save req.body.username, req.body.password, req.body.email, req.body.name, (err)->
     if err then throw err

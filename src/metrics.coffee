@@ -1,4 +1,4 @@
-db = require('./../db/db') "#{__dirname}/../db/metrics"
+db = require('./db') "#{__dirname}/../db/metrics"
 
 module.exports =
   ###
