@@ -24,4 +24,11 @@ module.exports =
     ws.on 'close', callback
     ws.write key: "user:#{username}", value: "#{password},#{name},#{email}"
     ws.end()
+
+  remove: (username, callback) ->
+    ws = db.createWriteStream({ type: 'del' })
+    ws.on 'error', callback
+    ws.on 'close', callback
+    ws.write key: "user:#{username}"
+    ws.end()
   
