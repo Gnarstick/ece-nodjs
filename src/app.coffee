@@ -1,7 +1,9 @@
 express = require 'express'
 app = express()
 metrics = require './metrics'
+user = require './user'
 
+bodyParser = require 'body-parser'
 session = require 'express-session'
 LevelStore = require('level-session-store') session
 app.use session
@@ -14,6 +16,7 @@ app.set 'port', 1337
 app.set 'views', "#{__dirname}/../views"
 app.set 'view engine', 'jade'
 app.use '/', express.static "#{__dirname}/../public"
+app.use bodyParser()
 
 app.listen app.get('port'), () ->
  console.log "server listening on #{app.get 'port'}"
@@ -38,7 +41,6 @@ app.get '/signup', (req, res) ->
 app.post '/signup', (req, res)->
   user.save req.body.username, req.body.password, req.body.email, req.body.name, (err)->
     if err then throw err
-    console.log "save user #(req.body.username)"
     req.session.loggedIn = true
     req.session.username = req.body.username
     res.redirect '/login'
