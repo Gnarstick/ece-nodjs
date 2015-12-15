@@ -47,7 +47,6 @@ app.post '/signup', (req, res)->
  
 app.post '/login', (req,res) ->
   user.get req.body.username, (err,data) ->
-    console.log req.body.password == data.password
     if err then throw err
     unless req.body.password == data.password
       res.redirect '/login'

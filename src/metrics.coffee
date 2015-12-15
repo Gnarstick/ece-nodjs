@@ -44,5 +44,13 @@ module.exports =
     ws.on 'close', callback
     for m in metrics
       {timestamp, value} = m
-      ws.write key: "metric:#{id}:#{timestamp}", value: value
+      ws.write key: "metric:#{id}", value: m
     ws.end()
+
+  remove: (id, cb) ->
+    ws = db.createWriteStream({ type: 'del' })
+    ws.on 'error', callback
+    ws.on 'close', callback
+    ws.write key: "id"
+    ws.end()
+	

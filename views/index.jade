@@ -8,41 +8,62 @@ block head
   script(src="//d3js.org/d3.v3.min.js")
 
 block content 
+  body
   div.container
-    div.col-md-6.col-md-offset-1
-      button.btn.btn-danger(href='/logout' onclick='document.location.href=\'/logout\'') Logout
-    div.col-md-6.col-md-offset-3
-      button.btn.btn-success#get-metrics Hello world
-      #content
+    div.row
+      div.col-md-1
+        button.btn.btn-danger(href='/logout' onclick='document.location.href=\'/logout\'') Logout
+      div.col-md-3
+        p welcome #{name}
+    div.row.aff
+      div.col-md-6.col-md-offset-3
+        button.btn.btn-success#get-metrics Show metrics graph
+      
   
   script
     :coffee-script
       $('#get-metrics').click (e) ->
-        e.preventDefault()
+        if $('.point')[0] then return
         $.getJSON '/metrics.json', (data) ->
-          $('#content').empty()
-          c = ""
-          widthaxe = 1150
-          heightaxe = 500
-          doc = d3.select ".bou" 
-          svg = doc.append "svg"
-            .attr "width", widthaxe
-            .attr "height", heightaxe
-          .append "g"
-            .attr "transform", "translate(" + 100 + "," + 20 + ")";
+          c = "<table class=\"table table-bordered\"><thead><tr><th>Timestamp</th><th>Value</th></thead><tbody>"
+          margin = {top: 20, right: 20, bottom: 30, left: 40}
+          width = 960 - margin.left - margin.right
+          height = 500 - margin.top - margin.bottom
+          datap=[]
+          for metric in data 
+            c += "<tr><td>#{metric.timestamp}</td><td>#{metric.value}</td></tr>"
+            datap.push {x:+metric.timestamp,y:+metric.value}
+          c += "</tbody></table>"
+          $('.aff').append c
+
           x = d3.scale.linear ""
-            .range [0, widthaxe-150]
+            .range [0, width]
           y = d3.scale.linear ""
-            .range [heightaxe, 0]
-          x.domain([0,20]).nice()
-          y.domain([1448965800000,1448967300000]).nice()
+            .range [height, 0]
+          doc = d3.select "body" 
+          svg = doc.append "svg"
+            .attr "class", "graph col-md-8 col-md-offset-2"
+            .attr "width", width + 100 + margin.left + margin.right
+            .attr "height", height + margin.top + margin.bottom
+          .append "g"
+            .attr "transform", "translate(" + margin.left + "," + margin.top + ")";
+          
+          x.domain(d3.extent(datap, (d) -> d.x)).nice()
+          y.domain(d3.extent(datap, (d) -> d.y)).nice()
+          
           svg.append("g")
             .attr "class", "x axis"
-            .attr "transform", "translate(0," + 450 + ")"
+            .attr "transform", "translate(0," + height + ")"
             .call d3.svg.axis().scale(x).orient "bottom";
+          
           svg.append("g")
             .attr "class", "y axis"
             .call d3.svg.axis().scale(y).orient "left";
-          for metric in data 
-            c += "<p>timestamp: #{metric.timestamp}<br/>value: #{metric.value}</p>"
-          $('#content').append c
+          
+          svg.selectAll ".point"
+              .data(datap)
+            .enter().append "path"
+              .attr "class", "point"
+              .attr "d", d3.svg.symbol().type "triangle-up"
+              .attr "transform", (d) -> "translate(" + x(d.x) + "," + y(d.y) + ")"
+          

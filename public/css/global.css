@@ -1,0 +1,34 @@
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+text{
+	font-size:90%;
+}
+
+.point {
+  fill: steelblue;
+  stroke: #000;
+}
+
+svg {
+	
+	padding-left: 100px
+}
+
+.login{
+	margin-top: 200px;
+	
+}
+
+.loginform{
+	padding-left: 10px;
+	
+}
+
+input{
+	float: right;
+}

@@ -4,17 +4,24 @@ block head
   script(type="text/javascript" src="js/jquery-2.1.4.min.js" charset="utf-8")
   script(type="text/javascript" src="js/bootstrap.min.js" charset="utf-8")
   link(rel='stylesheet', href='/css/bootstrap.min.css')
+  link(rel="stylesheet", href="/css/global.css")
 
 block content
-  #form
-    p Please login to your account
-    hr
-    form#login(action='/login', method="post")
-      .form-group
-        label Username
-        input(type='text', name="username")
-      .form-group
-        label Password
-        input(type='password', name="password")
-      button.btn.btn-success.btn-block(type='submit') Login
-    button.btn.btn-success.btn-block(href='/signup' onclick='document.location.href=\'/signup\'') Signup
+  div.container.login
+    div.row.centered
+      #form
+        div.col-md-3.col-md-offset-4
+          p Please login to your account
+          hr
+        
+          form.form-horizontal#login(action='/login', method="post")
+            .form-group.loginform
+              label Username
+              input(type='text', name="username")
+            .form-group.loginform
+              label Password
+              input(type='password', name="password")
+            button.btn.btn-success.btn-block(type='submit') Login
+    div.row.centered
+      div.col-md-3.col-md-offset-4
+        button.btn.btn-success.btn-block(href='/signup' onclick='document.location.href=\'/signup\'') Signup
