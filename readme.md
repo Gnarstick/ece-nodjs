@@ -1,6 +1,6 @@
 
 Première étape: Création de son profil utilisateur 
- pour cela effectuer les manipulations suivantes: 
+pour cela effectuer les manipulations suivantes: 
 SignIn -> entrer les informations -> Redirection directement sur la page principale 
 
 Deuxième étape: Creation d'un groupe de metric  
