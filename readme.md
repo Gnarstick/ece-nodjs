@@ -1,7 +1,4 @@
-# first level title
 
-first level title
-=================
 Première étape: Création de son profil utilisateur 
  pour cela effectuer les manipulations suivantes: 
 SignIn -> entrer les informations -> Redirection directement sur la page principale 
@@ -23,12 +20,6 @@ appuyer sur le boutton "delete metrics group"
 Remarque importante : On ne peut pas séléctionner un groupe de metric appartenant à un autre utlisateur, le message qui sera afficher sera le suivant: "you don't have the right to display the metrics group n° 1"
 
 
-``````
-ezfzeibfz
-``````
-
-
-Authors: Battu Damien
-		 Assayag Dan
+Authors: Battu Damien, Assayag Dan
 		 
 ECE project
