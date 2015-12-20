@@ -18,7 +18,8 @@ Appuyer sur le boutton "delete " -> re-selectionner le groupe de metric créer p
 Pour effacer un groupe de metric :
 Appuyer sur le boutton "delete metrics group"
 _________________________________________________________________________________________________________________________________________
-Remarque importante : On ne peut pas séléctionner un groupe de metric appartenant à un autre utlisateur, le message qui sera afficher sera le suivant: "you don't have the right to display the metrics group n° 1"
+Remarque importante : -On ne peut pas séléctionner un groupe de metric appartenant à un autre utlisateur, le message qui sera afficher sera le suivant: "you don't have the right to display the metrics group n° 1"
+                     - Lors de l'affichage du graphique , sous windows toutes les valeurs apparaissent correctement alors que sous mac la dernière valeur ajoutée est manquante 
 _________________________________________________________________________________________________________________________________________
 
 
