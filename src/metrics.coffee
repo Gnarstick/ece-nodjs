@@ -26,7 +26,7 @@ module.exports =
 
   Parameters:
   `id`: An integer defining a batch of metrics
-  `metrics`: An array of objects with a timestamp and a value
+  `metrics`: An objects with a timestamp and a value
   `callback`: Callback function takes an error or null as parameter
   ###
   save: (id, metrics, callback) ->
@@ -36,6 +36,16 @@ module.exports =
     ws.write key: "metric:#{id}:"+metrics.timestamp, value: metrics.value
     ws.end()
 
+  ###
+  `remove(id, time, callback)`
+  ---------------------------
+  remove a metric
+  
+  Parameters:
+  `id`: An integer defining a batch of metrics
+  `metrics`: A timestamp
+  `callback`: Callback function takes an error or null as parameter
+  ###
   remove: (id, time, callback) ->
     ws = db.createWriteStream({ type: 'del' })
     ws.on 'error', callback

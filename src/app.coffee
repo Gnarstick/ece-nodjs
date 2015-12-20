@@ -23,13 +23,10 @@ app.use bodyParser()
 
 app.listen app.get('port'), () ->
  console.log "server listening on #{app.get 'port'}"
-		
-app.get '/hello/:name', (req, res) ->
- res.send req.params.name
- 
-app.get '/test', (req, res) ->
- res.send "test"
- 
+
+###
+Logout route
+### 
 app.get '/logout', (req, res) ->
  delete req.session.loggedIn
  delete req.session.username
@@ -67,12 +64,18 @@ app.post '/', (req, res) ->
  metrics.save req.body.id, arr, (err) ->
   res.redirect '/'
 
+###
+authCheck fonction
+### 
 authCheck = (req, res, next) -> 
   unless req.session.loggedIn == true
     res.redirect '/login' 
   else
     next()
-	
+
+###
+Index with identification check
+### 
 app.get '/', authCheck, (req, res)->
   metrics_user.getallid (err, data)->
     res.render 'index', {name: req.session.username, metric_user: data}

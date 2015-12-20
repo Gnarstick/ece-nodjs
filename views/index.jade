@@ -44,6 +44,9 @@ block content
       opt = ""
       opt += "<option value=" + id + ">" + id + "</option>" for id in '#{metric_user}'.split ","
       $('#idlist').append opt
+      ###
+      click on an item on the list
+      ###
       $('#idlist').change (e) ->
          $.getJSON '/metric_user.json/'+ $('#idlist').val() , (data) ->
            if $('#idlist').val() != "select"
@@ -52,6 +55,9 @@ block content
              if data.username == '#{name}'
                afficher = "<div class=\"droit\"><h2>Metrics group n° " + $('#idlist').val() + "</h2></div>"
                $('.aff1').append afficher
+               ###
+               graph and tab creation
+               ###
                $.getJSON '/metrics.json/'+ $('#idlist').val() , (data) ->
                  $('#idform').val $('#idlist').val()
                  $('.add-metric').show()
