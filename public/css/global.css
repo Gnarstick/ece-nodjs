@@ -32,3 +32,46 @@ svg {
 input{
 	float: right;
 }
+
+.graph{
+	border-style: ridge;
+    border-width: 1px;
+	border-color: grey;
+	margin-top: 5px;
+}
+
+body{
+	background-color:#D7F0FB;
+}
+
+.table td {
+   text-align: center;   
+}
+
+.table th {
+   text-align: center;   
+}
+
+#selecteur{
+	position: relative;
+	bottom:22px;
+}
+
+#premiereligne{
+	border-bottom: ridge grey;
+	border-left: ridge grey;
+	border-right: ridge grey;
+	border-width: 1px;
+}
+
+#deuxiemeligne{
+	padding-top:100px;
+}
+
+#logou{
+	margin-top:10px;
+}
+
+.add-metric{
+	margin-bottom: 25px;
+}
