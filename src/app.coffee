@@ -1,5 +1,6 @@
 express = require 'express'
 app = express()
+stylus = require 'stylus'
 metrics = require './metrics'
 user = require './user'
 metrics_user = require './metric_user'
@@ -16,6 +17,7 @@ app.use session
 app.set 'port', 1337
 app.set 'views', "#{__dirname}/../views"
 app.set 'view engine', 'jade'
+app.use stylus.middleware "#{__dirname}/../public"
 app.use '/', express.static "#{__dirname}/../public"
 app.use bodyParser()
 
