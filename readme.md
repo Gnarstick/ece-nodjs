@@ -4,14 +4,14 @@ pour cela effectuer les manipulations suivantes:
 SignIn -> entrer les informations -> Redirection directement sur la page principale 
 
 Deuxième étape: Création d'un groupe de metric  
- les étapes sont les suisvantes: 
-Appuyer sur ke boutton "Create metric group"-> se rendre sur le menu déroulant "metrics group" -> selectionner le groupe créer 
+ les étapes sont les suivantes: 
+Appuyer sur le boutton "Create metric group"-> se rendre sur le menu déroulant "metrics group" -> selectionner le groupe créer 
 
 Troisième étape: Ajout des metrics dans le tableau 
-ecrire une valeur dans "value" -> appuyer sur "add metric" 
-Pour visualiser la metric créer , re-selectionner le groupe de metric créer prècedement avec le menu déroulant 
+écrire une valeur dans "value" -> appuyer sur "add metric" 
+Pour visualiser la metric créer: re-selectionner le groupe de metric créer prècedement avec le menu déroulant 
 
-Quatrème étape : Effacer une metric ou un groupe de metric 
+Quatrème étape: Effacer une metric ou un groupe de metric 
 pour effacer une metric en particulier :
 appuyer sur le boutton "delete " -> re-selectionner le groupe de metric créer prècedement avec le menu déroulant
 
