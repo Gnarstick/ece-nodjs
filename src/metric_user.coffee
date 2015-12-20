@@ -5,10 +5,10 @@ db = levelws levelup "#{__dirname}/../db/metric_user"
 module.exports = 
   get: (id, callback) ->
     user = {username:""}
-    rs = db.createReadStream
-      gte: "#{id}"
+    rs = db.createReadStream()
     rs.on 'data', (data) ->
-      user.username = data.value
+      if data.key == id
+        user.username = data.value
     rs.on 'error', callback 
     rs.on 'close', ->
       callback null, user
