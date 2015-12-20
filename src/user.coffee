@@ -17,7 +17,6 @@ module.exports =
         user.name=datan[2]
     rs.on 'error', callback 
     rs.on 'close', ->
-      console.log user
       callback null, user
 
   save: (username, password, email, name, callback) ->
