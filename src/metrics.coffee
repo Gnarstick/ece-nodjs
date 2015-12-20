@@ -7,26 +7,17 @@ module.exports =
 
   Returns some hard coded metrics
   ###
-  get: () ->
-    return [
-      timestamp: new Date('2015-12-01 10:30 UTC').getTime(),
-      value: 26
-    ,
-      timestamp: new Date('2015-12-01 10:35 UTC').getTime(),
-      value: 23
-    ,
-      timestamp: new Date('2015-12-01 10:40 UTC').getTime(),
-      value: 20
-    ,
-      timestamp: new Date('2015-12-01 10:45 UTC').getTime(),
-      value: 19
-    ,
-      timestamp: new Date('2015-12-01 10:50 UTC').getTime(),
-      value: 18
-    ,
-      timestamp: new Date('2015-12-01 10:55 UTC').getTime(),
-      value: 20
-    ]
+  get: (id, callback) ->
+    user = []
+    rs = db.createReadStream()
+    rs.on 'data', (data) ->
+      datatemp = data.key.split ":"
+      if datatemp[1] == id
+        user.push({timestamp:datatemp[2], value:data.value})
+    rs.on 'error', callback 
+    rs.on 'close', ->
+      callback null, user
+    
 
   ###
   `save(id, metrics, cb)`
@@ -42,15 +33,13 @@ module.exports =
     ws = db.createWriteStream()
     ws.on 'error', callback
     ws.on 'close', callback
-    for m in metrics
-      {timestamp, value} = m
-      ws.write key: "metric:#{id}", value: m
+    ws.write key: "metric:#{id}:"+metrics.timestamp, value: metrics.value
     ws.end()
 
-  remove: (id, cb) ->
+  remove: (id, time, callback) ->
     ws = db.createWriteStream({ type: 'del' })
     ws.on 'error', callback
     ws.on 'close', callback
-    ws.write key: "id"
+    ws.write key: "metric:#{id}:#{time}"
     ws.end()
 	

@@ -5,17 +5,19 @@ db = levelws levelup "#{__dirname}/../db/user"
 module.exports = 
   get: (username, callback) ->
     user = {username:"", password:"", email:"", name:""}
-    rs = db.createReadStream
-      gte: "user:#{username}"
+    rs = db.createReadStream()
     rs.on 'data', (data) ->
-      usern=data.key.split ":"
-      datan=data.value.split ","
-      user.username=usern[1]
-      user.password=datan[0]
-      user.email=datan[1]
-      user.name=datan[2]
+      usertemp = data.key.split ":"
+      if usertemp[1] == username
+        usern=data.key.split ":"
+        datan=data.value.split ","
+        user.username=usern[1]
+        user.password=datan[0]
+        user.email=datan[1]
+        user.name=datan[2]
     rs.on 'error', callback 
     rs.on 'close', ->
+      console.log user
       callback null, user
 
   save: (username, password, email, name, callback) ->

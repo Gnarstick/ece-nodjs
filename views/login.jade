@@ -11,17 +11,17 @@ block content
     div.row.centered
       #form
         div.col-md-3.col-md-offset-4
-          p Please login to your account
+          h4 Please login to your account
           hr
         
           form.form-horizontal#login(action='/login', method="post")
             .form-group.loginform
               label Username
-              input(type='text', name="username")
+              input(type='text', name="username", placeholder="Enter your login")
             .form-group.loginform
               label Password
-              input(type='password', name="password")
+              input(type='password', name="password", placeholder="Enter your password")
             button.btn.btn-success.btn-block(type='submit') Login
     div.row.centered
       div.col-md-3.col-md-offset-4
-        button.btn.btn-success.btn-block(href='/signup' onclick='document.location.href=\'/signup\'') Signup
+        button.btn.btn-success.btn-block(href='/signup' onclick='document.location.href=\'/signup\'') Signin

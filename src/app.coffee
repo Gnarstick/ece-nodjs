@@ -2,6 +2,7 @@ express = require 'express'
 app = express()
 metrics = require './metrics'
 user = require './user'
+metrics_user = require './metric_user'
 
 bodyParser = require 'body-parser'
 session = require 'express-session'
@@ -39,21 +40,30 @@ app.get '/signup', (req, res) ->
  res.render 'signup'
  
 app.post '/signup', (req, res)->
-  user.save req.body.username, req.body.password, req.body.email, req.body.name, (err)->
+  user.save req.body.username, req.body.password, req.body.email, req.body.name, (err) ->
     if err then throw err
     req.session.loggedIn = true
     req.session.username = req.body.username
-    res.redirect '/login'
+    res.redirect '/'
  
 app.post '/login', (req,res) ->
   user.get req.body.username, (err,data) ->
     if err then throw err
-    unless req.body.password == data.password
-      res.redirect '/login'
+    if req.body.username != ""
+      unless req.body.password == data.password
+        res.redirect '/login'
+      else
+        req.session.loggedIn = true
+        req.session.username = req.body.username
+        res.redirect '/'
     else
-      req.session.loggedIn = true
-      req.session.username = req.body.username
-      res.redirect '/'
+      res.redirect '/login'
+
+app.post '/', (req, res) ->
+ date = new Date().getTime()
+ arr = {timestamp: date, value: req.body.value}
+ metrics.save req.body.id, arr, (err) ->
+  res.redirect '/'
 
 authCheck = (req, res, next) -> 
   unless req.session.loggedIn == true
@@ -62,7 +72,34 @@ authCheck = (req, res, next) ->
     next()
 	
 app.get '/', authCheck, (req, res)->
-  res.render 'index', name: req.session.username
+  metrics_user.getallid (err, data)->
+    res.render 'index', {name: req.session.username, metric_user: data}
 	  
-app.get '/metrics.json', (req, res) ->
- res.status(200).json metrics.get()
+app.get '/metrics.json/:id', (req, res) ->
+ metrics.get req.params.id, (err, data) ->
+   res.status(200).json data
+
+app.get '/metric_user.json/:id', (req, res) ->
+ metrics_user.get req.params.id, (err, data) ->
+   res.status(200).json data
+   
+app.get '/delete-metric/:id/:timestamp', (req, res) ->
+ metrics.remove req.params.id, req.params.timestamp, (err) ->
+   res.redirect '/'
+
+app.get '/delete-groupe/:id', (req, res) ->
+ metrics_user.getallid (err, data) ->
+   for metric in data
+     metrics.remove req.params.id, metric.timestamp, (err) ->
+   metrics_user.remove req.params.id, (err) ->
+     res.redirect '/'
+
+app.get '/add-groupe', (req, res) ->
+  metrics_user.getmaxid (err, data) ->
+    if err then throw err
+    if isNaN(data.key)
+      metrics_user.save 1, req.session.username, (err) ->
+        res.redirect '/'
+    else
+      metrics_user.save +data.key+1, req.session.username, (err) ->
+        res.redirect '/'

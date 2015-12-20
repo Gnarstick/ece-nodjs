@@ -11,7 +11,7 @@ block content
     div.row.centered
       #form
         div.col-md-3.col-md-offset-4
-          p Please enter your informations
+          h4 Please enter your informations
           hr
           form.form-horizontal#login(action='/signup', method="post")
             .form-group.loginform
@@ -19,11 +19,11 @@ block content
               input(type='text', name="username")
             .form-group.loginform
               label Password
-              input(type='text', name="password")
+              input(type='password', name="password")
             .form-group.loginform
               label name
               input(type='text', name="name")
             .form-group.loginform
               label email
               input(type='text', name="email")
-          button.btn.btn-success.btn-block(type='submit') Signup
+            button.btn.btn-success.btn-block(type='submit') Signin

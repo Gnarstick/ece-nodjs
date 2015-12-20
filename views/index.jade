@@ -10,60 +10,104 @@ block head
 block content 
   body
   div.container
-    div.row
+    div.row#premiereligne
       div.col-md-1
-        button.btn.btn-danger(href='/logout' onclick='document.location.href=\'/logout\'') Logout
-      div.col-md-3
-        p welcome #{name}
-    div.row.aff
-      div.col-md-6.col-md-offset-3
-        button.btn.btn-success#get-metrics Show metrics graph
-      
-  
+        button.btn.btn-danger#logou(href='/logout' onclick='document.location.href=\'/logout\'') Logout
+      div.col-md-3.col-md-offset-4
+        h3 welcome #{name}
+    div.row#deuxiemeligne
+      div.col-md-2.col-md-offset-2
+        button.btn.btn-success#add-groupe(href='/' onclick='document.location.href=\'/add-groupe\'') Create metrics group
+      div.col-md-2
+        button.btn.btn-danger#delete-groupe Delete metrics group
+      div.col-md-2
+        div.form-group#selecteur
+          label Metrics Group
+          select.form-control#idlist
+            option(value='select') Select graph
+    div.row.aff1
+      div.droit
+        h2 Select a metrics group
+    div.row.aff2
+    div.row.add-metric
+      div.col-md-3.col-md-offset-4    
+        form.form-horizontal#login(action='/', method="post")
+          .form-group.loginform
+            label Value
+            input(type='number', name="value")
+            input(type='number', name="id").hidden#idform
+          button.btn.btn-success.btn-block(type='submit') add metric
+
   script
     :coffee-script
-      $('#get-metrics').click (e) ->
-        if $('.point')[0] then return
-        $.getJSON '/metrics.json', (data) ->
-          c = "<table class=\"table table-bordered\"><thead><tr><th>Timestamp</th><th>Value</th></thead><tbody>"
-          margin = {top: 20, right: 20, bottom: 30, left: 40}
-          width = 960 - margin.left - margin.right
-          height = 500 - margin.top - margin.bottom
-          datap=[]
-          for metric in data 
-            c += "<tr><td>#{metric.timestamp}</td><td>#{metric.value}</td></tr>"
-            datap.push {x:+metric.timestamp,y:+metric.value}
-          c += "</tbody></table>"
-          $('.aff').append c
+      $('.add-metric').hide()     
+      opt = ""
+      opt += "<option value=" + id + ">" + id + "</option>" for id in '#{metric_user}'.split ","
+      $('#idlist').append opt
+      $('#idlist').change (e) ->
+         $.getJSON '/metric_user.json/'+ $('#idlist').val() , (data) ->
+           if $('#idlist').val() != "select"
+             $('#delete-groupe').attr "onclick", "document.location.href=\'/delete-groupe/" + $('#idlist').val() + "\'"
+             $('.droit').remove()
+             if data.username == '#{name}'
+               afficher = "<div class=\"droit\"><h2>Metrics group n° " + $('#idlist').val() + "</h2></div>"
+               $('.aff1').append afficher
+               $.getJSON '/metrics.json/'+ $('#idlist').val() , (data) ->
+                 $('#idform').val $('#idlist').val()
+                 $('.add-metric').show()
+                 c = "<div class=\"tablediv\"><table class=\"table table-bordered\"><thead><tr><th>Timestamp</th><th>Value</th><th></th></thead><tbody>"
+                 margin = {top: 20, right: 20, bottom: 30, left: 40}
+                 width = 960 - margin.left - margin.right
+                 height = 500 - margin.top - margin.bottom
+                 datap=[]
+                 for metric in data 
+                   c += "<tr><td>#{metric.timestamp}</td><td>#{metric.value}</td><td><button class=\"btn btn-danger\" onclick=\"document.location.href=\'/delete-metric/" + $('#idlist').val() + "/" + metric.timestamp + "\'\">Delete</button></td></tr>"
+                   datap.push {x:+metric.timestamp,y:+metric.value}
+                 c += "</tbody></table></div>"
+                 $('.aff2').append c
 
-          x = d3.scale.linear ""
-            .range [0, width]
-          y = d3.scale.linear ""
-            .range [height, 0]
-          doc = d3.select "body" 
-          svg = doc.append "svg"
-            .attr "class", "graph col-md-8 col-md-offset-2"
-            .attr "width", width + 100 + margin.left + margin.right
-            .attr "height", height + margin.top + margin.bottom
-          .append "g"
-            .attr "transform", "translate(" + margin.left + "," + margin.top + ")";
+                 x = d3.scale.linear ""
+                   .range [0, width]
+                 y = d3.scale.linear ""
+                   .range [height, 0]
+                 doc = d3.select "body" 
+                 svg = doc.append "svg"
+                   .attr "class", "graph col-md-8 col-md-offset-2"
+                   .attr "width", width + 100 + margin.left + margin.right
+                   .attr "height", height + margin.top + margin.bottom
+                 .append "g"
+                   .attr "transform", "translate(" + margin.left + "," + margin.top + ")";
           
-          x.domain(d3.extent(datap, (d) -> d.x)).nice()
-          y.domain(d3.extent(datap, (d) -> d.y)).nice()
+                 x.domain(d3.extent(datap, (d) -> d.x)).nice()
+                 y.domain(d3.extent(datap, (d) -> d.y)).nice()
           
-          svg.append("g")
-            .attr "class", "x axis"
-            .attr "transform", "translate(0," + height + ")"
-            .call d3.svg.axis().scale(x).orient "bottom";
+                 svg.append("g")
+                   .attr "class", "x axis"
+                   .attr "transform", "translate(0," + height + ")"
+                   .call d3.svg.axis().scale(x).orient "bottom";
+            
+                 svg.append("g")
+                   .attr "class", "y axis"
+                   .call d3.svg.axis().scale(y).orient "left";
           
-          svg.append("g")
-            .attr "class", "y axis"
-            .call d3.svg.axis().scale(y).orient "left";
-          
-          svg.selectAll ".point"
-              .data(datap)
-            .enter().append "path"
-              .attr "class", "point"
-              .attr "d", d3.svg.symbol().type "triangle-up"
-              .attr "transform", (d) -> "translate(" + x(d.x) + "," + y(d.y) + ")"
-          
+                 svg.selectAll ".point"
+                     .data(datap)
+                   .enter().append "path"
+                     .attr "class", "point"
+                     .attr "d", d3.svg.symbol().type "triangle-up"
+                     .attr "transform", (d) -> "translate(" + x(d.x) + "," + y(d.y) + ")"
+             else
+               afficher = "<div class=\"droit\"><h2>You don't have the right to display the metrics group n° " + $('#idlist').val() + "<h2></div>"
+               $('.aff1').append afficher
+             if $('.tablediv')[0]
+               $('.tablediv').remove()
+               $('.graph').remove()
+           else
+             $('.droit').remove()
+             $('.tablediv').remove()
+             $('.graph').remove()
+             $('.add-metric').hide()
+             afficher = "<div class=\"droit\"><h2>Select a metrics group</h2></div>"
+             $('.aff1').append afficher
+             $('#delete-groupe').attr "onclick", ""
+      
